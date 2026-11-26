@@ -1,0 +1,11 @@
+:root {
+    color-scheme: light;
+    --bg: #f8efe8; --background: var(--bg);
+    --surface: #fffaf5; --ink: #382622; --muted: #79564d;
+    --accent: #a84c31; --border: #ddc4b6; --wash: #fae2d8;
+    --rail: #612f27; --on-rail: #fff5ef; --on-accent: #fffdf8;
+    --error: #a72338;
+    --display: "Gill Sans","PingFang SC",sans-serif; --type: "PingFang SC",sans-serif;
+    --radius: 18px; --gutter: 30px; --title: 40px;
+    --base: 14px;
+}
