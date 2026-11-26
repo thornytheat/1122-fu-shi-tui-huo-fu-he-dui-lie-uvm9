@@ -8,7 +8,7 @@
 docker compose up --build -d
 ```
 
-打开 `http://127.0.0.1:18201/` 查看退货复核队列。左侧六个入口可展开运行证据。调整「复核名额（单）」，点击「分配复核」比较处置结果。结束后执行 `docker compose down --remove-orphans`。
+打开 `http://127.0.0.1:18201/` 查看退货复核队列。左侧七个入口可展开运行证据。调整「复核名额（单）」，点击「分配复核」比较处置结果。结束后执行 `docker compose down --remove-orphans`。
 
 ## 独立业务模块
 
@@ -18,12 +18,14 @@ docker compose up --build -d
 - 验包评分 `inspection_score`
 - 复核配额 `desk_quota`
 - 退货复盘 `return_replay`
+- 关账计提 `close_accrual`
 
 ## 查看运行结果
 
 - `GET /api/overview` 返回默认运行及其指纹。
 - `POST /api/scenario` 接收 `{"capacity": 3}`。入口接受 1–100 的整数，应用样例时使用该业务额度。
 - `GET /api/stages/return_replay` 查看该环节的独立证据，支持 `?capacity=3`。
+- `GET /api/stages/close_accrual` 查看关账计提分录、暂估门店与次班复核位，支持 `?capacity=3`。
 
 ```sh
 docker compose exec -T app python -m returnscope.delivery evaluate --capacity 3

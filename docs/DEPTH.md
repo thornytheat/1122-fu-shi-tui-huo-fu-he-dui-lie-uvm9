@@ -12,6 +12,7 @@
 | M4 | 验包评分 | RiskVector处理证据 | `src/returnscope/inspection_score/contracts.py` `src/returnscope/inspection_score/algorithm.py` `src/returnscope/inspection_score/service.py` `src/returnscope/inspection_score/rolling_validation.py` | `tests/test_inspection_score.py` `tests/test_rolling_validation.py` |
 | M5 | 复核配额 | ReviewCandidate处理证据 | `src/returnscope/desk_quota/contracts.py` `src/returnscope/desk_quota/algorithm.py` `src/returnscope/desk_quota/service.py` `src/returnscope/desk_quota/staffing_frontier.py` | `tests/test_desk_quota.py` `tests/test_staffing_frontier.py` |
 | M6 | 退货复盘 | RefundEvidence处理证据 | `src/returnscope/return_replay/contracts.py` `src/returnscope/return_replay/algorithm.py` `src/returnscope/return_replay/service.py` `src/returnscope/return_replay/store_risk_ledger.py` | `tests/test_return_replay.py` `tests/test_store_risk_ledger.py` |
+| M7 | 关账计提 | AccrualItem处理证据 | `src/returnscope/close_accrual/contracts.py` `src/returnscope/close_accrual/algorithm.py` `src/returnscope/close_accrual/service.py` `src/returnscope/close_accrual/provisional_ledger.py` | `tests/test_close_accrual.py` `tests/test_provisional_ledger.py` `tests/test_pipeline_close_accrual.py` |
 
 ## 边界登记
 
@@ -28,3 +29,9 @@
 | TRAP-44 | 异常包裹超出历史特征轮廓时转验包 | `src/returnscope/inspection_score/algorithm.py` | `tests/test_inspection_score.py::test_unfamiliar_weight_profile_does_not_auto_release` |
 | TRAP-53 | 异常包裹与正常包裹拼批不影响正常样本概率 | `src/returnscope/inspection_score/algorithm.py` | `tests/test_inspection_score.py::test_batch_composition_cannot_change_score` |
 | TRAP-54 | 变更训练轮次使拟合指纹失效 | `src/returnscope/inspection_score/algorithm.py` | `tests/test_inspection_score.py::test_history_and_hyperparameters_change_version` |
+| TRAP-61 | 已生成退款指令的金额不重复计提，暂估门店暂停的指令整笔转入暂估 | `src/returnscope/close_accrual/algorithm.py` | `tests/test_close_accrual.py::test_refund_instruction_amount_is_not_accrued_again` `tests/test_close_accrual.py::test_provisional_shop_suspends_refund_instructions_and_reserves_full_amount` |
+| TRAP-62 | 未复核授权按模型概率折算预计损失，不按申请金额全额入账 | `src/returnscope/close_accrual/algorithm.py` | `tests/test_close_accrual.py::test_unreviewed_in_scope_parcel_uses_model_probability_not_full_amount` |
+| TRAP-63 | 无面单或授权冲突的金额整笔保留 | `src/returnscope/close_accrual/algorithm.py` | `tests/test_close_accrual.py::test_missing_label_keeps_the_full_requested_amount` |
+| TRAP-64 | 待复核敞口超过重要性的门店转暂估，边界相等仍按时定稿 | `src/returnscope/close_accrual/algorithm.py` | `tests/test_close_accrual.py::test_exposure_equal_to_materiality_still_finalizes_on_time` |
+| TRAP-65 | 晚到结案记录不改写已定稿计提，锁定门店仅登记排除原因 | `src/returnscope/close_accrual/algorithm.py` | `tests/test_close_accrual.py::test_late_evidence_cannot_rewrite_a_locked_shop` |
+| TRAP-66 | 同一截止点重跑不重复生成分录，分录号确定性派生 | `src/returnscope/close_accrual/provisional_ledger.py` | `tests/test_provisional_ledger.py::test_rerun_at_same_cutoff_does_not_duplicate_entries` |
